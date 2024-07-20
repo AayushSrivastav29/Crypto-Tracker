@@ -4,6 +4,7 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import { CoinContext } from "../context/CoinContext";
 import { BsCurrencyEuro } from "react-icons/bs";
 import { PiCurrencyInr } from "react-icons/pi";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   const { setCurrency } = useContext(CoinContext);
@@ -41,16 +42,16 @@ const NavBar = () => {
   };
   return (
     <div className="navbar">
-      <div className="logo">
+      <Link to="/" className="logo">
         <img src={logo} />
-      </div>
+      </Link>
 
       <div>
         <ul className="headers">
-          <li>Home</li>
+          <li><Link to='/'>Home</Link></li>
           <li>Features</li>
           <li>Pricing</li>
-          <li>Contact us</li>
+          <li><a href="#footer">Contact us</a></li>
         </ul>
       </div>
 
