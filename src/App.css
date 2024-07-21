@@ -313,3 +313,27 @@ a {
 .coin-info ul li:last-child{
   font-weight:300 ;
 }
+
+.pagination-buttons{
+  display: flex;
+  justify-content: center;
+  margin: 15px;
+  padding: 10px;
+  gap: 10px;
+}
+
+.pagination-buttons button{
+  background-color: #09005c; 
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pagination-buttons button:hover {
+  background-color: #0056b3; 
+}
+

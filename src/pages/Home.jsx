@@ -4,31 +4,31 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   const { allCoin, currency } = useContext(CoinContext);
-  const [displayCoin, setdisplayCoin] = useState([]);
+  const [displayCoin, setDisplayCoin] = useState([]);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [input, setInput] = useState("");
+  const [parameter, setParameter] = useState(10);
 
-  const inputhandler = (e) => {
+  const inputHandler = (e) => {
     setInput(e.target.value);
-    if (e.target.value==="") {
-      setdisplayCoin(allCoin);
+    if (e.target.value === "") {
+      setDisplayCoin(allCoin);
     }
   };
 
-  const searchHandler = async (e)=>{
+  const searchHandler = async (e) => {
     e.preventDefault();
-    const coins= await displayCoin.filter((item)=>{
-      return item.name.toLowerCase().includes(input.toLowerCase())
-  
-    })
-    setdisplayCoin(coins);
-  }
+    const coins = await displayCoin.filter((item) =>
+      item.name.toLowerCase().includes(input.toLowerCase())
+    );
+    setDisplayCoin(coins);
+  };
 
   useEffect(() => {
     const sortedCoins = [...allCoin].sort(
       (a, b) => a.market_cap_rank - b.market_cap_rank
     );
-    setdisplayCoin(sortedCoins);
+    setDisplayCoin(sortedCoins);
   }, [allCoin]);
 
   useEffect(() => {
@@ -37,6 +37,16 @@ const Home = () => {
     // Clean up event listener on component unmount
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const handleNext = () => {
+    setParameter(parameter + 10);
+  };
+
+  const handlePrevious = () => {
+    if (parameter > 10) {
+      setParameter(parameter - 10);
+    }
+  };
 
   function formatMarketCap(value) {
     if (window.innerWidth <= 600) {
@@ -62,12 +72,14 @@ const Home = () => {
             type="text"
             placeholder="Search Crypto..."
             value={input}
-            onChange={inputhandler}
+            onChange={inputHandler}
             required
           ></input>
 
           <datalist id="coinlist">
-            { displayCoin.map((item,index)=>(<option key={index} value={item.name}/>)) }
+            {displayCoin.map((item, index) => (
+              <option key={index} value={item.name} />
+            ))}
           </datalist>
           <button type="submit">Search</button>
         </form>
@@ -81,7 +93,7 @@ const Home = () => {
           <p style={{ textAlign: "center" }}>24Hr Change</p>
           <p className="market-cap">Market Cap</p>
         </div>
-        {displayCoin.slice(0, 10).map((item, index) => {
+        {displayCoin.slice(parameter - 10, parameter).map((item, index) => {
           return (
             <Link to={`/coin/${item.id}`} className="table-layout" key={index}>
               <p>{item.market_cap_rank}</p>
@@ -89,7 +101,7 @@ const Home = () => {
                 <img src={item.image} />
                 <p>
                   {windowWidth <= 600
-                    ? item.name
+                    ? item.symbol
                     : item.name + "-" + item.symbol}
                 </p>
               </div>
@@ -110,7 +122,16 @@ const Home = () => {
             </Link>
           );
         })}
+        
       </div>
+      <div className="pagination-buttons">
+          {parameter > 10 && (
+            <button onClick={handlePrevious}>Previous</button>
+          )}
+          {parameter < displayCoin.length && (
+            <button onClick={handleNext}>Next</button>
+          )}
+        </div>
     </div>
   );
 };
