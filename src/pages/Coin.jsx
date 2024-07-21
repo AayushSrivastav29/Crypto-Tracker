@@ -7,7 +7,7 @@ import LineChart from "../components/LineChart";
 const Coin = () => {
   const { coinId } = useParams();
 
-  const { currency } = useContext(CoinContext);
+  const { currency,apikey } = useContext(CoinContext);
   const [coindata, setCoinData] = useState();
   const [historicalData, setHistoricalData] = useState();
 
@@ -17,7 +17,7 @@ const Coin = () => {
       url: `https://api.coingecko.com/api/v3/coins/${coinId}`,
       headers: {
         accept: "application/json",
-        "x-cg-demo-api-key": "CG-1tkEa8QjUECfN8SY5oiNJCyS",
+        "x-cg-demo-api-key": apikey,
       },
     };
 
@@ -38,7 +38,7 @@ const Coin = () => {
       params: { vs_currency: currency.name, days: "10", interval: 'daily' },
       headers: {
         accept: "application/json",
-        "x-cg-demo-api-key": "CG-1tkEa8QjUECfN8SY5oiNJCyS",
+        "x-cg-demo-api-key": apikey,
       },
     };
 

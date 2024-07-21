@@ -10,6 +10,8 @@ const CoinContextProvider = (props) => {
     symbol: "$",
   });
 
+  const apikey = import.meta.env.VITE_API_KEY;
+
   useEffect(() => {
     const fetchAllCoin = async () => {
       const options = {
@@ -18,7 +20,7 @@ const CoinContextProvider = (props) => {
         params: { vs_currency: currency.name },
         headers: {
           accept: "application/json",
-          "x-cg-demo-api-key": "CG-1tkEa8QjUECfN8SY5oiNJCyS	",
+          "x-cg-demo-api-key": apikey,
         },
       };
 
@@ -38,6 +40,7 @@ const CoinContextProvider = (props) => {
     allCoin,
     currency,
     setCurrency,
+    apikey,
   };
 
   return (
